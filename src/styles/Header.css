@@ -1,0 +1,25 @@
+.header {
+    display: flex;  
+    align-items: center;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+    height: 100px;
+    background-color: #828282;
+}
+.botonMenu {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+}
+
+.iconoMenu {
+    font-size: 45px;
+    margin-left: 40px;
+    height: 95px;
+}
+
+.header h1 {
+  margin-left: 30px;
+}
