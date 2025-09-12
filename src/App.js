@@ -1,22 +1,41 @@
 import React, { useState } from "react";
 import { Header } from "./components/Header";
 import { SideBar } from "./components/SideBar";
-import { Content } from "./components/Content";
+import { Beats } from "./components/Beats";
+import { Shows } from "./components/Shows";
+import { Acerca } from "./components/Acerca";
+
 
 const App = () => {
   const [menuOpen, setMenuOpen] = useState(true);
+  const [activeView, setActiveView] = useState("Beats");
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  return (
-    <div>
-      <Header toggleMenu={toggleMenu} />
+  const renderContent = () => {
+    switch (activeView) {
+      case "Beats":
+        return <Beats />;
+      case "Shows":
+        return <Shows />;
+      case "Acerca":
+        return <Acerca />;
+      default:
+        return <Beats />;
+    }
+  };
 
-      <div style={{ display: "flex" }}>
-        {menuOpen && <SideBar />}
-        <Content />         
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <Header toggleMenu={toggleMenu} />
+      <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+        {menuOpen && <SideBar activeView={activeView} setActiveView={setActiveView} />}
+        <div style={{ flex: 1, overflowY: "auto" }}>
+          {renderContent()}
+        </div>
       </div>
     </div>
+
   );
 };
 

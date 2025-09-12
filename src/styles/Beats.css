@@ -1,0 +1,42 @@
+.beats-container {
+    
+    background-color: #7488AD;
+}
+
+.portada-beats {
+    width: 180px;
+    height: 124px;
+    background-color: #6D6C6C;
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.elements {
+    background-color: #3F5D43;
+}
+
+.circular-button-atras {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #3F5D43;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    margin-top: 60px;
+    margin-left: 140px;
+}
+
+.circular-button-adelante {
+    width: 20px;
+    height: 20px;
+    margin-top: 4px;
+    margin-left: 5px;
+    border-radius: 50%;
+    background-color: #9eb9a2;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+}
