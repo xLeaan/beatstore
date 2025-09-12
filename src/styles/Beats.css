@@ -1,18 +1,46 @@
-.beats-container {
-    
-    background-color: #7488AD;
+.contenedor {
+  display: flex;
+  background-color: #3C566B;
+  justify-content: space-between;
+  align-items: center;
+  height: 89.7vh
+}
+
+.portada-beats-wrapper {
+  display: flex;
+  align-items: flex-start;
 }
 
 .portada-beats {
-    width: 180px;
-    height: 124px;
+  width: 180px;
+    height: 12.8vh;
     background-color: #6D6C6C;
     border-bottom-right-radius: 20px;
     border-top-right-radius: 20px;
 }
 
-.elements {
-    background-color: #3F5D43;
+.beats-container {
+    flex: 1;
+}
+
+.beat-seleccionado {
+   top: 0;
+    right: 0;
+    width: 100%; 
+    height: 124px;
+    background-color: #536179;
+    background-image: repeating-linear-gradient(
+        to right, 
+        #7488AD 0px,
+        #536179 20px,
+        transparent 2px,
+        transparent 50px
+    );
+}
+
+.reproduccion {
+    border-color: white;
+    border-radius: 2px;
 }
 
 .circular-button-atras {
@@ -39,4 +67,36 @@
     border: none;
     cursor: pointer;
     display: flex;
+}
+
+.titulo {
+    background-color: #5A3483;
+}
+
+.icon-play {
+    font-size: 13px;
+    padding: 5px 5px 0px 5px;
+}
+
+.letra {
+    font-size: 20px;
+    color: white;
+}
+
+
+.precios {
+  margin-left: auto;
+  background-color: black;
+  width: 340px;
+  height: 100%;
+  color: white;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-left: 20px ;
+}
+
+.icon-precio {
+    font-size: 40px;
+    padding-right: 30px;
 }

@@ -1,0 +1,7 @@
+.container-acerca {
+    display: flex;
+    background-color: #0A0A0A;
+    justify-content: space-between;
+    align-items: center;
+    height: 89.7vh
+}
