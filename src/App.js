@@ -5,6 +5,9 @@ import { Beats } from "./components/Beats";
 import { Shows } from "./components/Shows";
 import { Acerca } from "./components/Acerca";
 import { Perfil } from "./components/Perfil";
+import { Carrito } from "./components/Carrito";
+import { Ayuda } from "./components/Ayuda";
+
 
 
 const App = () => {
@@ -31,6 +34,10 @@ const App = () => {
     switch (activeHeaderComponent) {
       case "Perfil":
         return <Perfil setActiveHeaderComponent={setActiveHeaderComponent} />;
+      case "Carrito":
+        return <Carrito setActiveHeaderComponent={setActiveHeaderComponent} />
+      case "Ayuda":
+        return <Ayuda setActiveHeaderComponent={setActiveHeaderComponent} />
       default:
         return null;
     }

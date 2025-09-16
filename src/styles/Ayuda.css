@@ -1,0 +1,11 @@
+.container-ayuda {
+    display: flex;
+    background-color: #0A0A0A;
+    align-items: center;
+    justify-content: center;
+    height: 89.7vh
+}
+
+.container-ayuda h1 {
+    color: white;
+}

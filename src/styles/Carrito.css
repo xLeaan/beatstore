@@ -1,0 +1,11 @@
+.container-carrito {
+    display: flex;
+    background-color: #0A0A0A;
+    align-items: center;
+    justify-content: center;
+    height: 89.7vh
+}
+
+.container-carrito h3 {
+    color: white;
+}

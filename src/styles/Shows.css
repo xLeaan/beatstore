@@ -1,7 +1,31 @@
-.container-shows {
-    display: flex;
-    background-color: #0A0A0A;
-    justify-content: space-between;
-    align-items: center;
-    height: 89.7vh
+.container-shows{
+  background-color: #0A0A0A;
+  min-height: 89.7vh;
+}
+
+
+.card-show{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-between;
+  text-align: center;
+  align-items: center;
+
+}
+
+
+.shows-container{
+  flex: 0 0 calc((100% - 40px) / 3);
+  box-sizing: border-box;
+  margin-top: 20vh;
+}
+
+.show-nombre {
+    color: #949494
+}
+
+.show-fecha {
+    color: #FFFFFF;
+    margin-top: 16px;
 }

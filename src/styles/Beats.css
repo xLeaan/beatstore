@@ -20,8 +20,9 @@
 }
 
 .beats-container {
-    flex: 1;
+  flex: 1
 }
+
 
 .beat-seleccionado {
    top: 0;
