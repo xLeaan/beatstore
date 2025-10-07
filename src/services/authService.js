@@ -1,12 +1,13 @@
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"
 
-export async function login(email, contrasena) {
+export async function login(loginemail, logincontrasena) {
+ 
     const res =  await fetch (`${API_URL}/api/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json"},
-        body: JSON.stringify({ email, contrasena})
+        body: JSON.stringify({ loginemail, logincontrasena})
     })
-
+     console.log("datos: ", loginemail, logincontrasena)
     if(!res.ok){
         const {error} = await res.json()
         throw new Error(error)

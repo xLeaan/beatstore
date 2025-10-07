@@ -1,0 +1,15 @@
+.container-admin {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #0A0A0A;
+    color: white;
+    justify-content: space-between;
+    align-items: center;
+    height: 89.7vh
+}
+
+.inputsBeats input {
+    color: black;
+    padding: 5px;
+    width: 40vh;
+}

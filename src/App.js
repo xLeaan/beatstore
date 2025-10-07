@@ -7,6 +7,7 @@ import { Acerca } from "./components/Acerca";
 import { Perfil } from "./components/Perfil";
 import { Carrito } from "./components/Carrito";
 import { Ayuda } from "./components/Ayuda";
+import { Admin } from "./components/Admin";
 
 
 
@@ -25,6 +26,8 @@ const App = () => {
         return <Shows />;
       case "Acerca":
         return <Acerca />;
+      case "Admin":
+        return <Admin />;
       default:
         return <Beats />;
     }

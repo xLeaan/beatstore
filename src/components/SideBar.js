@@ -3,8 +3,14 @@ import "../styles/SideBar.css";
 import { MdOutlineStars } from "react-icons/md";
 import { LuMusic } from "react-icons/lu";
 import { IoAlertCircleOutline } from "react-icons/io5";
+import { useUser } from "../context/UserContext";
+import { FaUserShield } from "react-icons/fa6";
 
 export const SideBar = ({ activeView, setActiveView }) => {
+
+  const { user } =  useUser();
+
+
   return (
     <div className="sidebar">
       <div className="menu">
@@ -29,8 +35,20 @@ export const SideBar = ({ activeView, setActiveView }) => {
           onClick={() => setActiveView("Acerca")}
         >
           <IoAlertCircleOutline className="icon" />
-        <span>Acerca de</span>
+        <span>Acerca de{}</span>
       </div>
+
+      {user?.admin && (
+          <div
+            className={`menu-item menu-item-admin ${
+              activeView === "Admin" ? "active" : "disabled"
+            }`}
+            onClick={() => setActiveView("Admin")}
+          >
+            <FaUserShield className="icon" />
+            <span>Admin</span>
+          </div>
+        )}
 
       </div>
     </div>

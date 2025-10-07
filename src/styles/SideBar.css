@@ -55,5 +55,10 @@ display: flex;
   color: #086bc2;              
 }
 
+.menu-item-admin.active {
+  background-color: #7E7E7E;
+  color: #a8a632;              
+}
+
 
 
