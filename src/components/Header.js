@@ -17,15 +17,13 @@ export const Header = ({ toggleMenu, setActiveHeaderComponent }) => {
     setUser(null);
   }
 
-
-
   return (
     <div className='header'>
       <button className='botonMenu' onClick={toggleMenu}>
         <MdOutlineMenu className='iconoMenu' />
       </button>
-      <h1>[Icono]</h1>
-      <h1>Nombre</h1>
+      <h1 onClick={() => setActiveHeaderComponent(null)} style={{cursor: 'pointer'}}>[Icono]</h1>
+      <h1 onClick={() => setActiveHeaderComponent(null)} style={{cursor: 'pointer'}}>Nombre</h1>
       <div className='iconos'>
         {user ? `${user.nombre}` : <CgProfile onClick={() => setActiveHeaderComponent("Perfil")} />}
         

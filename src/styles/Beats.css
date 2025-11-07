@@ -149,10 +149,19 @@
 }
 
 .precio-individual {
-    font-size: 40px;
-    padding-top: 20px;
     align-items: center;
     text-align: center;
+}
+
+.cantidad-precio {
+    font-size: 40px;
+}
+
+.añadir-carrito {
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .ondas-sonoras {
@@ -190,4 +199,23 @@
 .animadas .onda:nth-child(even) {
   animation-delay: 0.4s;
 }
+
+.añadir-carrito {
+  cursor: pointer;
+  font-weight: 600;
+  color: white;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.añadir-carrito:hover {
+  color: #225bc5;
+  transform: scale(1.05);
+}
+
+.añadir-carrito.en-carrito {
+  color: #22c55e; /* Verde para indicar que ya está agregado */
+  cursor: default;
+  transform: none;
+}
+
 

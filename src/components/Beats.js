@@ -3,6 +3,7 @@ import "../styles/Beats.css";
 import { FaPlay } from "react-icons/fa";
 import { LuCircleGauge } from "react-icons/lu";
 import { getBeats } from "../services/beatService";
+import { useCart } from "../context/CartContext";
 
 export const Beats = () => {
   const [beats, setBeats] = useState([]);
@@ -11,18 +12,16 @@ export const Beats = () => {
   const [backgroundImage, setBackgroundImage] = useState(null);
   const [reproduciendo, setReproduciendo] = useState(false);
 
+  const { addToCart, cartItems } = useCart();
 
   useEffect(() => {
-    const obtenerBeats = async () => {
-      try {
-        const data = await getBeats();
-        setBeats(data);
-      } catch (error) {
-        console.error("Error cargando beats:", error);
-      }
-    };
-    obtenerBeats();
-  }, []);
+  getBeats()
+    .then((data) => {
+      setBeats(data);
+    })
+    .catch((err) => console.error(err));
+}, []);
+
 
   const handleClickButton = (beat) => {
     if (beatSeleccionado === beat.id_beat) {
@@ -51,16 +50,25 @@ export const Beats = () => {
     nuevoAudio.play();
   };
 
+  const beatsDisponibles = beats.filter((beat) => beat.disponible_beat === true);
+
+  const handleAddToCart = (beat) => {
+    const alreadyInCart = cartItems.some((item) => item.id_beat === beat.id_beat);
+    if (!alreadyInCart) {
+      addToCart(beat);
+    }
+  };
+
 
   return (
     <div className="contenedor" style={{
       backgroundImage: backgroundImage ? `url(${backgroundImage})` : "none",
     }}>
       <div className="beats-container">
-        {beats.length === 0 ? (
-          <p>No hay beats disponibles aún</p>
+         {beatsDisponibles.length === 0 ? (
+          <p style={{ textAlign: 'center' }}>No hay beats disponibles aún</p>
         ) : (
-          beats.map((beat) => (
+          beatsDisponibles.map((beat) => (
             <div className="portada-beats-wrapper" key={beat.id_beat}>
               <div className="portada-beats">
                 <img
@@ -100,18 +108,37 @@ export const Beats = () => {
       </div>
       <div className="precios">
         <h1>Precios</h1>
-        <LuCircleGauge className="icon-precio" />
-        <LuCircleGauge className="icon-precio" />
-
         {beatSeleccionado && (
           <div className="precio-individual">
-            <span>
-              $
+            <span className="cantidad-precio">
+              $  
               {
                 beats.find((beat) => beat.id_beat === beatSeleccionado)
                   ?.precio
               }
             </span>
+            <br /> <br />
+            {(() => {
+              const beat = beats.find(
+                (b) => b.id_beat === beatSeleccionado
+              );
+              const alreadyInCart = cartItems.some(
+                (i) => i.id_beat === beat.id_beat
+              );
+
+              return (
+                <span
+                  className={`añadir-carrito ${
+                    alreadyInCart ? "en-carrito" : ""
+                  }`}
+                  onClick={() => !alreadyInCart && handleAddToCart(beat)}
+                >
+                  <LuCircleGauge className="icon-precio" />
+                  <br />
+                  {alreadyInCart ? "Producto agregado" : "Añadir al carrito"}
+                </span>
+              );
+            })()}
           </div>
         )}
 

@@ -1,12 +1,53 @@
-import React from 'react'
-import '../styles/Carrito.css'
+import React from "react";
+import "../styles/Carrito.css";
+import { useCart } from "../context/CartContext";
 
 export const Carrito = ({ setActiveHeaderComponent }) => {
+  const { cartItems, removeFromCart } = useCart();
+
   return (
-    <div className='container-carrito'>
-        <h3>Los elementos de tu carrito se verán acá</h3>
-        <br />
-        <button onClick={() => setActiveHeaderComponent(null)}>Volver</button>
+    <div className="container-carrito">
+      <h2 className="titulo-carrito">Elementos de tu carrito:</h2>
+
+      {cartItems.length > 0 ? (
+        <ul className="lista-carrito">
+          {cartItems.map((item) => (
+            <li key={item.id_beat} className="cart-item">
+              <img
+                src={item.imagen_beat || "/unnamed.png"}
+                alt={item.nombre_beat}
+                className="cart-item-image"
+              />
+              <div className="cart-item-info">
+                <span className="cart-item-name">{item.nombre_beat}</span>
+                <span className="cart-item-price">${item.precio}</span>
+              </div>
+              <button
+                className="remove-btn"
+                onClick={() => removeFromCart(item.id_beat)}
+              >
+                ✖
+              </button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="carrito-vacio">Tu carrito está vacío</p>
+      )}
+
+      {cartItems.length > 0 && (
+        <div className="total-carrito">
+          <strong>Total:</strong>{" "}
+          ${cartItems.reduce((acc, item) => acc + (item.precio || 0), 0)}
+        </div>
+      )}
+
+      <button
+        className="volver-btn"
+        onClick={() => setActiveHeaderComponent(null)}
+      >
+        Volver
+      </button>
     </div>
-  )
-}
+  );
+};

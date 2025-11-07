@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import "../styles/Admin.css"
 import { crearBeats } from '../services/beatService';
+import { crearShows } from '../services/showService';
 
 export const Admin = () => {
 
@@ -44,6 +45,46 @@ export const Admin = () => {
     }
   };
 
+  const [nombreShow, setNombreShow] = useState("");
+  const [fechaShow, setFechaShow] = useState("");
+  const [lugarShow, setLugarShow] = useState("");
+  const [urlShow, setUrlShow] = useState("");
+  const [imagenShow, setImagenShow] = useState(null);
+  const [subiendoShow, setSubiendoShow] = useState(false);
+
+  const handleUploadShow = async (e) => {
+      e.preventDefault();
+      if (!imagenShow) return alert("Selecciona una imagen para el show");
+
+      setSubiendoShow(true);
+
+      const formData = new FormData();
+      formData.append("nombre_show", nombreShow);
+      formData.append("fecha_show", fechaShow);
+      formData.append("lugar_show", lugarShow);
+      formData.append("url_show", urlShow);
+      formData.append("imagen_show", imagenShow);
+
+      try {
+        console.log("FormData a enviar de shows:", formData);
+        const { show } = await crearShows(formData);
+        console.log("Show guardado:", show);
+        alert("Show subido correctamente");
+        // limpiar
+        setNombreShow("");
+        setFechaShow("");
+        setLugarShow("");
+        setUrlShow("");
+        setImagenShow(null);
+
+      } catch (error) {
+        console.error(error);
+        alert("Error al subir el show");
+      } finally {
+        setSubiendoShow(false);
+      }
+  }
+
   return (
     <div className='container-admin'>
         <div className='admin-beats'>
@@ -74,7 +115,7 @@ export const Admin = () => {
                   onChange={(e) => setAudioFile(e.target.files[0])}
                 />
               </div>
-              <h2>Imgen del beat</h2>
+              <h2>Imagen del beat</h2>
               <div className='inputsBeats'>
                 <input
                     type="file"
@@ -86,12 +127,59 @@ export const Admin = () => {
                 {subiendo ? "Subiendo..." : "Subir Beat"}
               </button>
             </form>
-            <h1>Beats creados</h1>
 
         </div>   
 
         <div>
           <h1>Crear shows</h1>
+
+          <form onSubmit={handleUploadShow}>
+              <div className='inputsShows'>
+                <input
+                  type='text'
+                  placeholder='Nombre del show'
+                  value={nombreShow}
+                  onChange={(e) => setNombreShow(e.target.value)}
+                />
+              </div>
+              <br />
+              <div className='inputsShows'>
+                <input
+                  type='datetime-local'
+                  placeholder='Fecha del show'
+                  value={fechaShow}
+                  onChange={(e) => setFechaShow(e.target.value)}
+                />
+              </div>
+              <br/>
+              <div className='inputsShows'>
+                <input
+                  type='text'
+                  placeholder='Lugar del show'
+                  value={lugarShow}
+                  onChange={(e) => setLugarShow(e.target.value)}
+                />
+              </div>
+              <div className='inputsShows'>
+                <input
+                  type='link'
+                  placeholder='Link del show'
+                  value={urlShow}
+                  onChange={(e) => setUrlShow(e.target.value)}
+                />
+              </div>
+              <h2>Imagen del show</h2>
+              <div className='inputsShows'>
+                <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setImagenShow(e.target.files[0])}
+                  />
+              </div>
+              <button type="submit" disabled={subiendoShow}>
+                {subiendoShow ? "Subiendo..." : "Subir show"}
+              </button>
+            </form>
         </div>
 
         <div>

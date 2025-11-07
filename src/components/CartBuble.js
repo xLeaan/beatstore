@@ -1,30 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 import '../styles/CartBubble.css';
+import { useCart } from "../context/CartContext";
 
 export default function CartBubble({ onClose, setActiveHeaderComponent }) {
 
-  const [items, setItems] = useState([
-    { id: 1, name: "Producto 1" },
-    { id: 2, name: "Producto 2" },
-  ]);
-
-  const removeItem = (id) => {
-    setItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  const { cartItems, removeFromCart } = useCart();
 
   return (
     <div className="cart-bubble">
       <p className="title">Carrito</p>
 
-      {items.length > 0 ? (
+      {cartItems.length > 0 ? (
         <>
           <ul>
-            {items.map((item) => (
+            {cartItems.map((item) => (
               <li key={item.id} className="cart-item">
-                {item.name}
+                {item.nombre_beat} - ${item.precio}
                 <button
                   className="remove-btn"
-                  onClick={() => removeItem(item.id)}
+                  onClick={() => removeFromCart(item.id_beat)}
                 >
                   ✖
                 </button>

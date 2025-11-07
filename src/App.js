@@ -8,7 +8,7 @@ import { Perfil } from "./components/Perfil";
 import { Carrito } from "./components/Carrito";
 import { Ayuda } from "./components/Ayuda";
 import { Admin } from "./components/Admin";
-
+import { CartProvider } from "./context/CartContext";
 
 
 const App = () => {
@@ -47,8 +47,13 @@ const App = () => {
   };
 
   return (
+    <CartProvider>
     <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
-      <Header toggleMenu={toggleMenu}  setActiveHeaderComponent={setActiveHeaderComponent}  activeHeaderComponent={activeHeaderComponent} />
+      <Header 
+        toggleMenu={toggleMenu}  
+        setActiveHeaderComponent={setActiveHeaderComponent}  
+        activeHeaderComponent={activeHeaderComponent} 
+      />
 
       <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
         {!activeHeaderComponent && menuOpen && <SideBar activeView={activeView} setActiveView={setActiveView} />}
@@ -57,7 +62,7 @@ const App = () => {
         </div>
       </div>
     </div>
-
+    </CartProvider>
   );
 };
 
