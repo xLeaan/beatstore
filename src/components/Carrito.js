@@ -4,6 +4,27 @@ import { useCart } from "../context/CartContext";
 
 export const Carrito = ({ setActiveHeaderComponent }) => {
   const { cartItems, removeFromCart } = useCart();
+  const total = cartItems.reduce((acc, item) => acc + (item.precio || 0), 0);
+
+  const pagarConEpayco = () => {
+  // console.log("EPAYCO KEY:", process.env.REACT_APP_PUBLIC_KEY_EPAYCO);
+
+  const handler = window.ePayco.checkout.configure({
+    key: process.env.REACT_APP_PUBLIC_KEY_EPAYCO,
+    test: true,
+  });
+
+  handler.open({
+    name: "Compra de beats",
+    description: `Compra de ${cartItems.length} beats`,
+    amount: total, 
+    currency: "cop",
+    country: "co",
+    tax: "0",
+    tax_base: total,
+  });
+};
+
 
   return (
     <div className="container-carrito">
@@ -48,6 +69,10 @@ export const Carrito = ({ setActiveHeaderComponent }) => {
       >
         Volver
       </button>
+      <button onClick={pagarConEpayco}>
+        Pagar con ePayco
+      </button>
+
     </div>
   );
 };
