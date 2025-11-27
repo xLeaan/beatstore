@@ -63,15 +63,19 @@ export const Carrito = ({ setActiveHeaderComponent }) => {
         </div>
       )}
 
+       <button 
+        className="pagar-btn"
+        onClick={pagarConEpayco}>
+        Ir al pago
+      </button>
+
       <button
         className="volver-btn"
         onClick={() => setActiveHeaderComponent(null)}
       >
         Volver
       </button>
-      <button onClick={pagarConEpayco}>
-        Pagar con ePayco
-      </button>
+     
 
     </div>
   );

@@ -99,6 +99,21 @@
   transition: background 0.3s ease;
 }
 
+.pagar-btn {
+    background-color: #762C98;
+    margin-top: 20px;
+    font-size: 20px;
+    width: 140px;
+    height: 45px;
+    cursor: pointer;
+    border-radius: 5%;
+    border-style: none;
+}
+
+.pagar-btn:hover {
+    background-color: #5e246f;
+}
+
 .volver-btn:hover {
   background: #1e40af;
 }
