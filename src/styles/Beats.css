@@ -1,221 +1,620 @@
-.contenedor {
+/* =========================================================
+   Beats — vista "Playlist" estilo DAW
+   ========================================================= */
+.daw {
+  --daw-bg: #1c2124;
+  --daw-panel: #2b3338;
+  --daw-panel-2: #353f45;
+  --daw-panel-3: #414c53;
+  --daw-borde: #12161a;
+  --daw-linea: rgba(255, 255, 255, 0.05);
+  --daw-texto: #cdd6db;
+  --daw-dim: #7f8c93;
+  --daw-lcd-bg: #0c1410;
+  --daw-lcd: var(--lime);
+  --daw-cab-w: 360px;
+  --daw-fila-h: 72px;
+
   display: flex;
-  background-color: #3C566B;
-  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--daw-bg);
+  color: var(--daw-texto);
+  font-family: var(--font-body);
+}
+
+/* ---------- Botones genéricos del DAW (biselados) ---------- */
+.daw-btn,
+.daw-tbtn {
+  display: inline-flex;
   align-items: center;
-  height: 89.7vh;
-  background-color: #3C566B;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: background-image 0.6s ease-in-out;
-  position: relative;
-  overflow: hidden;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--daw-borde);
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--daw-panel-3), var(--daw-panel-2));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 1px 0 rgba(0, 0, 0, 0.4);
+  color: var(--daw-texto);
+  cursor: pointer;
+  transition: filter 0.15s, color 0.15s;
+}
+.daw-btn:hover:not(:disabled),
+.daw-tbtn:hover:not(:disabled) {
+  filter: brightness(1.15);
+}
+.daw-btn:active:not(:disabled),
+.daw-tbtn:active:not(:disabled) {
+  background: linear-gradient(180deg, var(--daw-panel-2), var(--daw-panel));
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+.daw-btn:disabled,
+.daw-tbtn:disabled {
+  opacity: 0.45;
+  cursor: default;
 }
 
-.contenedor::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 0;
-  transition: background 0.8s ease-in-out;
-}
-
-.contenedor > * {
-  position: relative;
-  z-index: 1;
-}
-
-.portada-beats-wrapper {
+/* ---------- Barra de transporte ---------- */
+.daw-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 6;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 8px 14px;
+  background: linear-gradient(180deg, #39434a, #2c353a);
+  border-bottom: 1px solid var(--daw-borde);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
-.portada-beats {
-  position: relative;
-  width: 180px;
-  height: 12.8vh;
-  background-color: #6d6c6c;
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
+.daw-transporte {
+  display: flex;
+  gap: 4px;
+}
+.daw-tbtn {
+  width: 38px;
+  height: 34px;
+  font-size: 13px;
+}
+.daw-tbtn.on {
+  color: var(--lime);
+}
+.daw-tbtn.on svg {
+  filter: drop-shadow(0 0 4px var(--lime));
+}
+
+.daw-lcd {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 38px;
+  padding: 0 12px;
+  min-width: 128px;
+  background: var(--daw-lcd-bg);
+  border: 1px solid #000;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.8), 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.daw-lcd-chico {
+  min-width: 62px;
+}
+.daw-lcd-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.15em;
+  color: rgba(223, 255, 0, 0.45);
+  line-height: 1;
+}
+.daw-lcd-valor {
+  font-family: var(--font-mono);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--daw-lcd);
+  text-shadow: 0 0 8px rgba(223, 255, 0, 0.55);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Medidor L/R */
+.daw-vu {
+  display: flex;
+  gap: 3px;
+  height: 34px;
+  padding: 3px;
+  background: var(--daw-lcd-bg);
+  border: 1px solid #000;
+  border-radius: 3px;
+}
+.daw-vu i {
+  width: 6px;
+  height: 100%;
+  border-radius: 1px;
+  background: linear-gradient(0deg, #3fae4a 0%, #3fae4a 60%, #e8d23a 80%, #e2483c 100%);
+  clip-path: inset(92% 0 0 0);
+  transition: clip-path 0.1s;
+}
+.daw-vu.activo i {
+  animation: vu 0.45s ease-in-out infinite alternate;
+}
+.daw-vu.activo i:nth-child(2) {
+  animation-duration: 0.38s;
+  animation-delay: 0.1s;
+}
+@keyframes vu {
+  0% {
+    clip-path: inset(70% 0 0 0);
+  }
+  40% {
+    clip-path: inset(25% 0 0 0);
+  }
+  70% {
+    clip-path: inset(45% 0 0 0);
+  }
+  100% {
+    clip-path: inset(10% 0 0 0);
+  }
+}
+
+/* Panel de información (hint) */
+.daw-hint {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 38px;
+  padding: 0 12px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--daw-borde);
+  border-radius: 3px;
+}
+.daw-hint-nombre {
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+  white-space: nowrap;
   overflow: hidden;
-
+  text-overflow: ellipsis;
+}
+.daw-hint-meta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--daw-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.portada-beats img {
+/* Botón carrito */
+.daw-btn-carrito {
+  height: 30px;
+  padding: 0 10px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.daw-btn-carrito:hover:not(:disabled) {
+  color: var(--lime);
+}
+.daw-btn-carrito.en-carrito,
+.daw-btn-carrito.en-carrito:disabled {
+  opacity: 1;
+  color: var(--online);
+  background: rgba(97, 212, 106, 0.08);
+  box-shadow: none;
+}
+.daw-btn-grande {
+  height: 38px;
+  padding: 0 16px;
+  font-size: 11px;
+  background: linear-gradient(180deg, #e9ff4a, #c9e600);
+  color: #111;
+  border-color: #6f7f00;
+}
+.daw-btn-grande:hover:not(:disabled) {
+  color: #111;
+}
+
+/* ---------- Ventana Playlist ---------- */
+.daw-ventana {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  border: 1px solid var(--daw-borde);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--daw-panel);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.daw-ventana-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 10px;
+  background: linear-gradient(180deg, #46525a, #38424a);
+  border-bottom: 1px solid var(--daw-borde);
+  font-size: 12px;
+  font-weight: 600;
+  color: #e6edf0;
+}
+.daw-ventana-sep {
+  color: var(--daw-dim);
+}
+.daw-ventana-sub {
+  color: var(--daw-dim);
+  font-weight: 500;
+}
+.daw-ventana-luces {
+  margin-left: auto;
+  display: flex;
+  gap: 5px;
+}
+.daw-ventana-luces i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #252c30;
+  border: 1px solid #12161a;
+}
+
+.daw-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.daw-playlist {
+  min-width: 960px;
+}
+
+.daw-fila {
+  display: grid;
+  grid-template-columns: var(--daw-cab-w) 1fr;
+  height: var(--daw-fila-h);
+  border-bottom: 1px solid var(--daw-borde);
+}
+
+/* Cabecera de pista (columna izquierda) */
+.daw-cabecera {
+  position: sticky;
+  left: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 10px;
+  background: linear-gradient(180deg, var(--daw-panel-2), var(--daw-panel));
+  border-right: 1px solid var(--daw-borde);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  min-width: 0;
+}
+
+.daw-regla-fila {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  height: 26px;
+}
+.daw-esquina {
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--daw-dim);
+  background: #252c30;
+}
+
+.daw-regla {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(16, 1fr);
+  background: #252c30;
+}
+.daw-regla span {
+  padding-left: 4px;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 26px;
+  color: var(--daw-dim);
+}
+.daw-regla .daw-regla-marca {
   position: absolute;
   top: 0;
-  left: 0;
+  bottom: 0;
+  width: 0;
+  padding: 0;
+  border: none;
+  pointer-events: none;
+}
+.daw-regla-marca::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -6px;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 9px solid var(--lime);
+  filter: drop-shadow(0 0 4px var(--lime));
+}
+
+.daw-num {
+  width: 20px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--daw-dim);
+}
+
+.daw-led {
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #1a2023;
+  border: 1px solid #0b0e10;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.6);
+}
+.daw-led.on {
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+}
+
+.daw-cover {
+  position: relative;
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--daw-borde);
+  border-radius: 3px;
+  overflow: hidden;
+  background: #1a2023;
+  cursor: pointer;
+}
+.daw-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
+  display: block;
+  transition: filter 0.2s;
+}
+.daw-cover-play {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  color: var(--lime);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.daw-pista:hover .daw-cover-play,
+.daw-pista.activa .daw-cover-play {
+  opacity: 1;
+}
+.daw-pista:hover .daw-cover img,
+.daw-pista.activa .daw-cover img {
+  filter: brightness(0.4);
+}
+.daw-cover:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 1px;
 }
 
-.beats-container {
-  flex: 1
-}
-
-
-.beat-seleccionado {
-   top: 0;
-    right: 0;
-    width: 88%; 
-    height: 124px;
-    background-color: #536179;
-    background-image: repeating-linear-gradient(
-        to right, 
-        #7488AD 0px,
-        #536179 20px,
-        transparent 2px,
-        transparent 50px
-    );
-}
-
-.reproduccion {
-    border-color: white;
-    border-radius: 2px;
-}
-
-.portada-beats span {
-  position: relative;
-  z-index: 1;
-  color: white;
-  font-weight: bold;
-  text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
-  padding: 4px 0;
-}
-
-
-.circular-button-atras {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #3F5D43;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    margin-top: 60px;
-    margin-left: 140px;
-    z-index: 2;
-}
-
-.circular-button-adelante {
-    width: 20px;
-    height: 20px;
-    margin-top: 4px;
-    margin-left: 5px;
-    border-radius: 50%;
-    background-color: #9eb9a2;
-    color: white;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    z-index: 3;
-}
-
-.titulo {
-    background-color: #5A3483;
-}
-
-.icon-play {
-    font-size: 13px;
-    padding: 5px 5px 0px 5px;
-}
-
-.letra {
-    font-size: 20px;
-    color: white;
-}
-
-
-.precios {
-  margin-left: auto;
-  background-color: black;
-  width: 340px;
-  height: 100%;
-  color: white;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding-left: 20px ;
-}
-
-.icon-precio {
-    font-size: 40px;
-    padding-right: 30px;
-}
-
-.precio-individual {
-    align-items: center;
-    text-align: center;
-}
-
-.cantidad-precio {
-    font-size: 40px;
-}
-
-.añadir-carrito {
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.ondas-sonoras {
+.daw-texto {
+  flex: 1;
+  min-width: 0;
   display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  height: 70px;
-  gap: 3px;
-  margin-top: 10px;
+  flex-direction: column;
 }
-
-.onda {
-  width: 58px;
-  height: 10px;
-  background: #fff;
-  border-radius: 4px;
-}
-
-.animadas .onda {
-  animation: rebotar 1s ease-in-out infinite;
-}
-
-@keyframes rebotar {
-  0%, 100% {
-    height: 10px;
-  }
-  50% {
-    height: 35px;
-  }
-}
-
-.animadas .onda:nth-child(odd) {
-  animation-delay: 0.2s;
-}
-.animadas .onda:nth-child(even) {
-  animation-delay: 0.4s;
-}
-
-.añadir-carrito {
-  cursor: pointer;
+.daw-nombre {
+  font-size: 13px;
   font-weight: 600;
-  color: white;
-  transition: color 0.3s ease, transform 0.2s ease;
+  color: #eef3f5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.daw-precio {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--lime);
 }
 
-.añadir-carrito:hover {
-  color: #225bc5;
-  transform: scale(1.05);
+/* Pista activa */
+.daw-pista {
+  animation: entrar 0.35s ease both;
+}
+.daw-pista.activa .daw-cabecera {
+  background: linear-gradient(180deg, #3e4a51, #333d43);
+  box-shadow: inset 3px 0 0 var(--lime);
+}
+.daw-pista.activa .daw-num {
+  color: var(--lime);
 }
 
-.añadir-carrito.en-carrito {
-  color: #22c55e; /* Verde para indicar que ya está agregado */
-  cursor: default;
-  transform: none;
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
+/* ---------- Carril con rejilla de compases ---------- */
+.daw-carril {
+  position: relative;
+  padding: 5px 0;
+  cursor: pointer;
+  background-color: #262e33;
+  background-image:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, var(--daw-linea) 1px, transparent 1px);
+  background-size:
+    calc(100% / 16) 100%,
+    calc(100% / 64) 100%;
+}
+/* Bloques de 4 compases alternando tono */
+.daw-carril::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0 25%,
+    rgba(0, 0, 0, 0.12) 25% 50%,
+    transparent 50% 75%,
+    rgba(0, 0, 0, 0.12) 75% 100%
+  );
+  pointer-events: none;
+}
 
+/* Clip de audio */
+.daw-clip {
+  position: relative;
+  height: 100%;
+  margin: 0 2px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 3px;
+  overflow: hidden;
+  background: hsla(var(--clip-h), 32%, 38%, 0.85);
+  border: 1px solid hsl(var(--clip-h), 35%, 22%);
+  box-shadow: inset 0 1px 0 hsla(var(--clip-h), 50%, 75%, 0.25);
+  transition: filter 0.2s;
+}
+.daw-pista:hover .daw-clip {
+  filter: brightness(1.12);
+}
+.daw-pista.activa .daw-clip {
+  background: hsla(var(--clip-h), 40%, 42%, 0.95);
+  border-color: hsl(var(--clip-h), 45%, 60%);
+}
+
+.daw-clip-titulo {
+  flex: 0 0 15px;
+  padding: 0 6px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 15px;
+  color: hsl(var(--clip-h), 40%, 92%);
+  background: hsla(var(--clip-h), 35%, 22%, 0.7);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.daw-clip-onda {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  padding: 2px;
+}
+.daw-clip-onda span {
+  flex: 1;
+  min-width: 1px;
+  border-radius: 1px;
+  background: hsla(var(--clip-h), 60%, 85%, 0.75);
+}
+.daw-clip-onda span.llena {
+  background: var(--lime);
+}
+
+/* Cabezal de reproducción */
+.daw-cabezal {
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.daw-vacio {
+  margin: 0;
+  padding: 48px 20px;
+  text-align: center;
+  color: var(--daw-dim);
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+/* ---------- Skeleton de carga ---------- */
+.sk {
+  display: block;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #2f383d 0%, #3c474e 50%, #2f383d 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s linear infinite;
+}
+.sk-num {
+  width: 18px;
+  height: 10px;
+}
+.sk-cover {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+}
+.sk-text {
+  width: 50%;
+  height: 12px;
+}
+.sk-clip {
+  height: 100%;
+  margin-left: 2px;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .daw {
+    --daw-cab-w: 260px;
+  }
+  .daw-btn-carrito:not(.daw-btn-grande) span {
+    display: none;
+  }
+  .daw-btn-carrito:not(.daw-btn-grande) {
+    width: 30px;
+    padding: 0;
+  }
+  .daw-vu,
+  .daw-lcd-chico {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .daw-toolbar {
+    flex-wrap: wrap;
+  }
+  .daw-hint {
+    order: 10;
+    flex-basis: 100%;
+  }
+  .daw-ventana {
+    margin: 6px;
+  }
+}

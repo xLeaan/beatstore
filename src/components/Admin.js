@@ -86,105 +86,116 @@ export const Admin = () => {
   }
 
   return (
-    <div className='container-admin'>
-        <div className='admin-beats'>
-            <h1>Crear beats</h1>
-             <form onSubmit={handleUpload}>
-              <div className='inputsBeats'>
-                <input
-                  type='text'
-                  placeholder='Nombre del beat'
-                  value={nombreBeat}
-                  onChange={(e) => setNombreBeat(e.target.value)}
-                />
-              </div>
-              <br />
-              <div className='inputsBeats'>
-                <input
-                  type='number'
-                  placeholder='Precio'
-                  value={precioBeat}
-                  onChange={(e) => setPrecioBeat(e.target.value)}
-                />
-              </div>
-              <h2>Audio</h2>
-              <div className='inputsBeats'>
-                <input
-                  type='file'
-                  accept="audio/*"
-                  onChange={(e) => setAudioFile(e.target.files[0])}
-                />
-              </div>
-              <h2>Imagen del beat</h2>
-              <div className='inputsBeats'>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImagenFile(e.target.files[0])}
-                  />
-              </div>
-              <button type="submit" disabled={subiendo}>
-                {subiendo ? "Subiendo..." : "Subir Beat"}
-              </button>
-            </form>
+    <div className='page container-admin'>
+      <div className='page-head'>
+        <div className='eyebrow'><b>[04]</b> Panel de administración</div>
+        <h1 className='display'>Admin.</h1>
+      </div>
 
-        </div>   
+      <div className='admin-grid'>
+        <section className='card admin-card admin-beats'>
+          <div className='eyebrow'><b>A</b> · Catálogo</div>
+          <h2>Crear beat</h2>
+          <form onSubmit={handleUpload}>
+            <div className='field'>
+              <label>Nombre del beat</label>
+              <input
+                type='text'
+                placeholder='Ej. Midnight Drip'
+                value={nombreBeat}
+                onChange={(e) => setNombreBeat(e.target.value)}
+              />
+            </div>
+            <div className='field'>
+              <label>Precio (COP)</label>
+              <input
+                type='number'
+                placeholder='50000'
+                value={precioBeat}
+                onChange={(e) => setPrecioBeat(e.target.value)}
+              />
+            </div>
+            <div className='field'>
+              <label>Audio</label>
+              <input
+                type='file'
+                accept="audio/*"
+                onChange={(e) => setAudioFile(e.target.files[0])}
+              />
+            </div>
+            <div className='field'>
+              <label>Imagen del beat</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImagenFile(e.target.files[0])}
+              />
+            </div>
+            <button className='btn btn-primary btn-block' type="submit" disabled={subiendo}>
+              {subiendo ? "Subiendo..." : "Subir beat"}
+            </button>
+          </form>
+        </section>
 
-        <div>
-          <h1>Crear shows</h1>
-
+        <section className='card admin-card'>
+          <div className='eyebrow'><b>B</b> · En vivo</div>
+          <h2>Crear show</h2>
           <form onSubmit={handleUploadShow}>
-              <div className='inputsShows'>
-                <input
-                  type='text'
-                  placeholder='Nombre del show'
-                  value={nombreShow}
-                  onChange={(e) => setNombreShow(e.target.value)}
-                />
-              </div>
-              <br />
-              <div className='inputsShows'>
-                <input
-                  type='datetime-local'
-                  placeholder='Fecha del show'
-                  value={fechaShow}
-                  onChange={(e) => setFechaShow(e.target.value)}
-                />
-              </div>
-              <br/>
-              <div className='inputsShows'>
-                <input
-                  type='text'
-                  placeholder='Lugar del show'
-                  value={lugarShow}
-                  onChange={(e) => setLugarShow(e.target.value)}
-                />
-              </div>
-              <div className='inputsShows'>
-                <input
-                  type='link'
-                  placeholder='Link del show'
-                  value={urlShow}
-                  onChange={(e) => setUrlShow(e.target.value)}
-                />
-              </div>
-              <h2>Imagen del show</h2>
-              <div className='inputsShows'>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => setImagenShow(e.target.files[0])}
-                  />
-              </div>
-              <button type="submit" disabled={subiendoShow}>
-                {subiendoShow ? "Subiendo..." : "Subir show"}
-              </button>
-            </form>
-        </div>
+            <div className='field'>
+              <label>Nombre del show</label>
+              <input
+                type='text'
+                placeholder='Nombre del show'
+                value={nombreShow}
+                onChange={(e) => setNombreShow(e.target.value)}
+              />
+            </div>
+            <div className='field'>
+              <label>Fecha</label>
+              <input
+                type='datetime-local'
+                value={fechaShow}
+                onChange={(e) => setFechaShow(e.target.value)}
+              />
+            </div>
+            <div className='field'>
+              <label>Lugar</label>
+              <input
+                type='text'
+                placeholder='Lugar del show'
+                value={lugarShow}
+                onChange={(e) => setLugarShow(e.target.value)}
+              />
+            </div>
+            <div className='field'>
+              <label>Link de entradas</label>
+              <input
+                type='url'
+                placeholder='https://'
+                value={urlShow}
+                onChange={(e) => setUrlShow(e.target.value)}
+              />
+            </div>
+            <div className='field'>
+              <label>Imagen del show</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => setImagenShow(e.target.files[0])}
+              />
+            </div>
+            <button className='btn btn-primary btn-block' type="submit" disabled={subiendoShow}>
+              {subiendoShow ? "Subiendo..." : "Subir show"}
+            </button>
+          </form>
+        </section>
 
-        <div>
-          <h1>Editar acerca de</h1>
-        </div>
+        <section className='card admin-card'>
+          <div className='eyebrow'><b>C</b> · Contenido</div>
+          <h2>Editar acerca de</h2>
+          <p className='admin-pronto'>Próximamente</p>
+        </section>
+      </div>
     </div>
   )
 }

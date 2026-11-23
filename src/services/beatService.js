@@ -16,8 +16,13 @@ export async function crearBeats(formData) {
 export async function getBeats() {
     try {
         const res = await fetch(`${API_URL}/api/beats/getBeats`);
-        if (!res.ok) throw new Error("Error obteniendo beats");
-        return await res.json();
+        if (!res.ok) throw new Error("Error obteniendo beats!!");
+
+        // Leer el body una sola vez: llamar res.json() dos veces lanza
+        // "body stream already read" y los beats nunca se cargaban.
+        const data = await res.json();
+        console.log("Respuesta de getBeats:", data);
+        return data;
     } catch (error) {
         console.error("Error en fetchBeats:", error);
         throw error;

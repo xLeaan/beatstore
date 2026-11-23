@@ -1,56 +1,41 @@
 import React from "react";
 import "../styles/SideBar.css";
-import { MdOutlineStars } from "react-icons/md";
-import { LuMusic } from "react-icons/lu";
-import { IoAlertCircleOutline } from "react-icons/io5";
+import { LuDisc3, LuMusic, LuInfo, LuShieldCheck } from "react-icons/lu";
 import { useUser } from "../context/UserContext";
-import { FaUserShield } from "react-icons/fa6";
 
 export const SideBar = ({ activeView, setActiveView }) => {
 
-  const { user } =  useUser();
+  const { user } = useUser();
 
+  const items = [
+    { id: "Beats", label: "Beats", icon: <LuDisc3 /> },
+    { id: "Shows", label: "Shows", icon: <LuMusic /> },
+    { id: "Acerca", label: "Acerca de", icon: <LuInfo /> },
+  ];
+  if (user?.admin) {
+    items.push({ id: "Admin", label: "Admin", icon: <LuShieldCheck /> });
+  }
 
   return (
-    <div className="sidebar">
-      <div className="menu">
-        <div
-          className={`menu-item menu-item-beats ${activeView === "Beats" ? "active" : "disabled"}`}
-          onClick={() => setActiveView("Beats")}
-        >
-          <MdOutlineStars className="icon" />
-        <span>Beats</span>
-      </div>
-
-      <div
-          className={`menu-item menu-item-shows ${activeView === "Shows" ? "active" : "disabled"}`}
-          onClick={() => setActiveView("Shows")}
-        >
-          <LuMusic className="icon" />
-        <span>Shows</span>
-      </div>
-
-      <div
-          className={`menu-item menu-item-acerca ${activeView === "Acerca" ? "active" : "disabled"}`}
-          onClick={() => setActiveView("Acerca")}
-        >
-          <IoAlertCircleOutline className="icon" />
-        <span>Acerca de{}</span>
-      </div>
-
-      {user?.admin && (
-          <div
-            className={`menu-item menu-item-admin ${
-              activeView === "Admin" ? "active" : "disabled"
-            }`}
-            onClick={() => setActiveView("Admin")}
+    <aside className="sidebar">
+      <div className="eyebrow sidebar-titulo">Secciones</div>
+      <nav className="menu">
+        {items.map((item, i) => (
+          <button
+            key={item.id}
+            className={`menu-item ${activeView === item.id ? "active" : ""}`}
+            onClick={() => setActiveView(item.id)}
           >
-            <FaUserShield className="icon" />
-            <span>Admin</span>
-          </div>
-        )}
+            <span className="menu-num">[{String(i + 1).padStart(2, "0")}]</span>
+            <span className="icon">{item.icon}</span>
+            <span className="menu-label">{item.label}</span>
+          </button>
+        ))}
+      </nav>
 
+      <div className="sidebar-pie eyebrow">
+        Bar 001 / 128 · 4/4
       </div>
-    </div>
+    </aside>
   );
 };

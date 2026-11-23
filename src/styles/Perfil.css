@@ -1,123 +1,52 @@
-.container {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #0A0A0A;
-    justify-content: space-between;
-    align-items: center;
-    height: 89.7vh;
+.perfil-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  max-width: 1000px;
 }
 
-.loginSection {
-    width: 90vh;
-    align-items: center;
-    background-color: #0A0A0A;
-    text-align: center;
+.loginSection,
+.registerSection {
+  padding: 28px;
 }
 
-.loginSection h2 {
-    color: white;
+.loginSection h2,
+.registerSection h2 {
+  margin: 8px 0 24px;
+  font-size: 26px;
+  text-transform: uppercase;
 }
 
-.loginSection a {
-    color: white;
-    text-align: left;
-    margin-bottom: 5px;
-    margin-right: 35vh;
+.perfil-dos-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.olvido {
+  display: inline-block;
+  margin: 4px 0 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  text-decoration: none;
+}
+.olvido:hover {
+  color: var(--lime);
 }
 
 .botonNext {
-    background-color: #762C98;
-    margin-top: 20px;
-    font-size: 20px;
-    width: 140px;
-    height: 45px;
-    cursor: pointer;
-    border-radius: 5%;
-    border-style: none;
-}
-
-.botonNext:hover {
-    background-color: #7b4296;
-    color: white;
+  margin-top: 12px;
+  height: 46px;
 }
 
 .icon-login {
-   margin-top: 5px;
-   color: white;
+  font-size: 20px;
 }
 
-.icon-login:hover {
-    color: #7b4296
+@media (max-width: 860px) {
+  .perfil-grid {
+    grid-template-columns: 1fr;
+  }
 }
-
-.botonAtras {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: white;
-    margin-top: 10vh;
-    margin-left: 30vh;
-    
-    font-size: 30px;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.botonAtras:hover {
-    color: #7b4296
-}
-
-.inputsLogin input {
-    color: black;
-    padding: 10px;
-    width: 50vh;
-}
-
-.inputsLogin p {
-   padding: 0;
-    color: white;
-    text-align: left;
-    margin-left: 19vh;
-    margin-bottom: 5px;
-}
-
-.linea {
-    width: 1px; 
-    height: 600px; 
-    background-color: white; 
-    border: none;
-}
-
-.registerSection {
-    width: 100vh;
-    align-items: center;
-    background-color: #0A0A0A;
-    text-align: center;
-}
-
-.registerSection h2 {
-    color: white;
-}
-
-.inputsRegister {
-    color: white;
-    padding-bottom: 15px;
-}
-
-.inputsRegister input {
-    color: black;
-    padding: 10px;
-    width: 50vh;
-}
-
-.inputsRegister p {
-   padding: 0;
-    color: white;
-    text-align: left;
-    margin-left: 24vh;  
-    margin-bottom: 5px;
-    
-}
-
-
-

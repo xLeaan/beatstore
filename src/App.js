@@ -9,6 +9,7 @@ import { Carrito } from "./components/Carrito";
 import { Ayuda } from "./components/Ayuda";
 import { Admin } from "./components/Admin";
 import { CartProvider } from "./context/CartContext";
+import "./App.css";
 
 
 const App = () => {
@@ -17,6 +18,12 @@ const App = () => {
    const [activeHeaderComponent, setActiveHeaderComponent] = useState(null);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
+
+  // Vuelve al inicio, en la sección de Beats
+  const irAlInicio = () => {
+    setActiveView("Beats");
+    setActiveHeaderComponent(null);
+  };
 
   const renderContent = () => {
     switch (activeView) {
@@ -36,7 +43,7 @@ const App = () => {
    const renderHeaderContent = () => {
     switch (activeHeaderComponent) {
       case "Perfil":
-        return <Perfil setActiveHeaderComponent={setActiveHeaderComponent} />;
+        return <Perfil setActiveHeaderComponent={setActiveHeaderComponent} irAlInicio={irAlInicio} />;
       case "Carrito":
         return <Carrito setActiveHeaderComponent={setActiveHeaderComponent} />
       case "Ayuda":
@@ -48,18 +55,18 @@ const App = () => {
 
   return (
     <CartProvider>
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div className="app-shell">
       <Header 
         toggleMenu={toggleMenu}  
         setActiveHeaderComponent={setActiveHeaderComponent}  
         activeHeaderComponent={activeHeaderComponent} 
       />
 
-      <div style={{ display: "flex", flex: 1, overflow: "hidden" }}>
+      <div className="app-body">
         {!activeHeaderComponent && menuOpen && <SideBar activeView={activeView} setActiveView={setActiveView} />}
-        <div style={{ flex: 1, overflowY: "auto" }}>
+        <main className="app-main">
           {activeHeaderComponent ? renderHeaderContent() : renderContent()}
-        </div>
+        </main>
       </div>
     </div>
     </CartProvider>
