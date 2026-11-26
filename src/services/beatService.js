@@ -5,6 +5,15 @@ export function cambiarDisponibilidadBeat(id, disponible_beat) {
     return adminFetch(`/api/beats/${id}`, { method: "PATCH", body: { disponible_beat } });
 }
 
+// cambios: { nombre_beat?, precio?, imagen? (File) }
+export function editarBeat(id, { nombre_beat, precio, imagen }) {
+    const formData = new FormData();
+    if (nombre_beat !== undefined) formData.append("nombre_beat", nombre_beat);
+    if (precio !== undefined) formData.append("precio", precio);
+    if (imagen) formData.append("imagen_beat", imagen);
+    return adminFetch(`/api/beats/${id}`, { method: "PATCH", body: formData });
+}
+
 export function eliminarBeat(id) {
     return adminFetch(`/api/beats/${id}`, { method: "DELETE" });
 }

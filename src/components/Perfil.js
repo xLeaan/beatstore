@@ -10,7 +10,6 @@ export const Perfil = ({ setActiveHeaderComponent, irAlInicio }) => {
   const [apellido, setApellido] = useState("")
   const [email, setEmail] = useState("")
   const [loginemail, setLoginEmail] = useState("")
-  const [admin, setAdmin] = useState(false)
   const [contrasena, setContrasena] = useState("")
   const [logincontrasena, setLoginContrasena] = useState("")
 
@@ -77,8 +76,7 @@ export const Perfil = ({ setActiveHeaderComponent, irAlInicio }) => {
 
     try {
       setLoadingRegistro(true)
-      setAdmin(false)
-      await register(nombre.trim(), apellido.trim(), email.trim(), contrasena, admin)
+      await register(nombre.trim(), apellido.trim(), email.trim(), contrasena)
     } catch (err) {
       setError(err.message)
       setLoadingRegistro(false)

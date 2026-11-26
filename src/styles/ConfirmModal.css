@@ -32,6 +32,15 @@
   font-size: 16px;
 }
 
+.confirm-exito .confirm-icono {
+  background: rgba(97, 212, 106, 0.12);
+  color: var(--online);
+}
+.confirm-aviso .confirm-icono {
+  background: var(--lime-soft);
+  color: var(--lime);
+}
+
 .confirm-modal h2 {
   margin: 0 0 8px;
   font-size: 22px;
@@ -75,6 +84,39 @@
 .btn-peligro:hover {
   background: #ff4d5e;
   border-color: #ff4d5e;
+}
+
+/* ---------- Modal de edición de beat ---------- */
+.editar-beat h2 {
+  margin-bottom: 20px;
+}
+.editar-imagen {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.editar-imagen img {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+.editar-imagen-texto {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+.editar-imagen-texto span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
 }
 
 @keyframes confirm-fade {

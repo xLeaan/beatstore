@@ -347,7 +347,8 @@ export const Beats = () => {
                           ))}
                         </div>
                       </div>
-                      {cabezal}
+                      {/* El cabezal solo se dibuja en la pista que está sonando */}
+                      {activo && cabezal}
                     </div>
                   </div>
                 );

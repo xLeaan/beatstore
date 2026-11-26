@@ -28,6 +28,6 @@ export async function login(loginemail, logincontrasena) {
     return peticionAuth("/api/login", { loginemail, logincontrasena }, "login")
 }
 
-export async function register(nombre, apellido, email, contrasena, admin = false) {
-    return peticionAuth("/api/register", { nombre, apellido, email, contrasena, admin }, "registro")
+export async function register(nombre, apellido, email, contrasena) {
+    return peticionAuth("/api/register", { nombre, apellido, email, contrasena }, "registro")
 }

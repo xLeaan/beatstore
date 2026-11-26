@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import "../styles/Admin.css"
-import { FaTrash } from 'react-icons/fa';
+import { FaTrash, FaPen } from 'react-icons/fa';
 import { ConfirmModal } from './ConfirmModal';
+import { EditarBeatModal } from './EditarBeatModal';
+import { useAviso } from '../context/AvisoContext';
 import { crearBeats, getBeats, cambiarDisponibilidadBeat, eliminarBeat } from '../services/beatService';
 import { crearShows } from '../services/showService';
 import { getAcerca, guardarAcerca } from '../services/acercaService';
@@ -12,6 +14,7 @@ const formatearPrecio = (precio) => {
 };
 
 export const Admin = () => {
+  const aviso = useAviso();
 
   // ---------- Beats subidos ----------
   const [beats, setBeats] = useState([]);
@@ -22,7 +25,7 @@ export const Admin = () => {
     setCargandoBeats(true);
     getBeats()
       .then((data) => setBeats(data || []))
-      .catch(() => alert("No se pudieron cargar los beats"))
+      .catch((err) => aviso({ tipo: "error", titulo: "No se pudieron cargar los beats", mensaje: err.message }))
       .finally(() => setCargandoBeats(false));
   };
 
@@ -35,7 +38,7 @@ export const Admin = () => {
       const actualizado = await cambiarDisponibilidadBeat(beat.id_beat, !beat.disponible_beat);
       setBeats((prev) => prev.map((b) => (b.id_beat === beat.id_beat ? { ...b, ...actualizado } : b)));
     } catch (err) {
-      alert(err.message);
+      aviso({ tipo: "error", titulo: "No se pudo actualizar el beat", mensaje: err.message });
     } finally {
       setOcupado(null);
     }
@@ -51,6 +54,16 @@ export const Admin = () => {
   };
 
   const cancelarEliminar = useCallback(() => setBeatAEliminar(null), []);
+
+  // Beat que se está editando (abre el modal de edición)
+  const [beatAEditar, setBeatAEditar] = useState(null);
+  const cerrarEditar = useCallback(() => setBeatAEditar(null), []);
+
+  const handleBeatEditado = (actualizado) => {
+    setBeats((prev) => prev.map((b) => (b.id_beat === actualizado.id_beat ? { ...b, ...actualizado } : b)));
+    setBeatAEditar(null);
+    aviso({ tipo: "exito", titulo: "Beat actualizado", mensaje: `Se guardaron los cambios de "${actualizado.nombre_beat}".` });
+  };
 
   const confirmarEliminar = async () => {
     const beat = beatAEliminar;
@@ -89,14 +102,14 @@ export const Admin = () => {
 
   const handleGuardarAcerca = async (e) => {
     e.preventDefault();
-    if (!acerca.titulo.trim()) return alert("El título es obligatorio");
+    if (!acerca.titulo.trim()) return aviso({ titulo: "Falta el título", mensaje: "El título de la página es obligatorio." });
     setGuardandoAcerca(true);
     try {
       const guardado = await guardarAcerca(acerca);
       setAcerca(guardado);
-      alert("Acerca de actualizado");
+      aviso({ tipo: "exito", titulo: "Acerca de actualizado", mensaje: "Los cambios ya se ven en la página." });
     } catch (err) {
-      alert(err.message);
+      aviso({ tipo: "error", titulo: "No se pudo guardar", mensaje: err.message });
     } finally {
       setGuardandoAcerca(false);
     }
@@ -110,7 +123,7 @@ export const Admin = () => {
 
  const handleUpload = async (e) => {
     e.preventDefault();
-    if (!audioFile) return alert("Selecciona un archivo de audio");
+    if (!audioFile) return aviso({ titulo: "Falta el audio", mensaje: "Selecciona un archivo de audio para el beat." });
 
     setSubiendo(true);
 
@@ -127,7 +140,7 @@ export const Admin = () => {
       const { beat } = await crearBeats(formData);
 
       console.log("Beat guardado:", beat);
-      alert("Beat subido correctamente");
+      aviso({ tipo: "exito", titulo: "Beat subido", mensaje: `"${nombreBeat}" ya está en el catálogo.` });
       cargarBeats();
 
       // limpiar
@@ -137,7 +150,7 @@ export const Admin = () => {
       setAudioFile("");
     } catch (error) {
       console.error(error);
-      alert(`Error al subir el beat: ${error.message}`);
+      aviso({ tipo: "error", titulo: "No se pudo subir el beat", mensaje: error.message });
     } finally {
       setSubiendo(false);
     }
@@ -152,7 +165,7 @@ export const Admin = () => {
 
   const handleUploadShow = async (e) => {
       e.preventDefault();
-      if (!imagenShow) return alert("Selecciona una imagen para el show");
+      if (!imagenShow) return aviso({ titulo: "Falta la imagen", mensaje: "Selecciona una imagen para el show." });
 
       setSubiendoShow(true);
 
@@ -167,7 +180,7 @@ export const Admin = () => {
         console.log("FormData a enviar de shows:", formData);
         const { show } = await crearShows(formData);
         console.log("Show guardado:", show);
-        alert("Show subido correctamente");
+        aviso({ tipo: "exito", titulo: "Show subido", mensaje: `"${nombreShow}" ya aparece en la sección de shows.` });
         // limpiar
         setNombreShow("");
         setFechaShow("");
@@ -177,7 +190,7 @@ export const Admin = () => {
 
       } catch (error) {
         console.error(error);
-        alert(`Error al subir el show: ${error.message}`);
+        aviso({ tipo: "error", titulo: "No se pudo subir el show", mensaje: error.message });
       } finally {
         setSubiendoShow(false);
       }
@@ -388,6 +401,15 @@ export const Admin = () => {
                     {beat.disponible_beat ? "Marcar agotado" : "Marcar disponible"}
                   </button>
                   <button
+                    className='admin-icon-btn'
+                    onClick={() => setBeatAEditar(beat)}
+                    disabled={ocupado === beat.id_beat}
+                    aria-label={`Editar ${beat.nombre_beat}`}
+                    title='Editar beat'
+                  >
+                    <FaPen />
+                  </button>
+                  <button
                     className='admin-icon-btn peligro'
                     onClick={() => pedirEliminar(beat)}
                     disabled={ocupado === beat.id_beat}
@@ -402,6 +424,14 @@ export const Admin = () => {
           )}
         </section>
       </div>
+
+      {beatAEditar && (
+        <EditarBeatModal
+          beat={beatAEditar}
+          onCerrar={cerrarEditar}
+          onGuardado={handleBeatEditado}
+        />
+      )}
 
       {beatAEliminar && (
         <ConfirmModal
