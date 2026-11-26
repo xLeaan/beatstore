@@ -1,16 +1,9 @@
+import { adminFetch } from "./adminFetch";
+
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"
 
-export async function crearShows(formData) {
-    const res = await fetch(`${API_URL}/api/shows`, {
-        method: "POST",
-        body: formData,
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || "Error al crear el show");
-
-    return data;
+export function crearShows(formData) {
+    return adminFetch("/api/shows", { method: "POST", body: formData });
 }
 
 export async function getShows() {

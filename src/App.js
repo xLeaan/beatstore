@@ -6,7 +6,6 @@ import { Shows } from "./components/Shows";
 import { Acerca } from "./components/Acerca";
 import { Perfil } from "./components/Perfil";
 import { Carrito } from "./components/Carrito";
-import { Ayuda } from "./components/Ayuda";
 import { Admin } from "./components/Admin";
 import { CartProvider } from "./context/CartContext";
 import "./App.css";
@@ -46,8 +45,6 @@ const App = () => {
         return <Perfil setActiveHeaderComponent={setActiveHeaderComponent} irAlInicio={irAlInicio} />;
       case "Carrito":
         return <Carrito setActiveHeaderComponent={setActiveHeaderComponent} />
-      case "Ayuda":
-        return <Ayuda setActiveHeaderComponent={setActiveHeaderComponent} />
       default:
         return null;
     }

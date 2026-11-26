@@ -2,6 +2,15 @@
   max-width: 900px;
 }
 
+.container-acerca .display,
+.acerca-grid {
+  animation: acerca-entrar 0.25s ease-out;
+}
+@keyframes acerca-entrar {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .acerca-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));

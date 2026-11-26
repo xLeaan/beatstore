@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 import '../styles/Header.css'
 import { MdOutlineMenu } from "react-icons/md";
 import { FaCartShopping } from 'react-icons/fa6';
-import { LuUser, LuLogOut, LuCircleHelp } from 'react-icons/lu';
+import { LuUser, LuLogOut } from 'react-icons/lu';
 import CartBubble from './CartBuble';
 import { useUser } from '../context/UserContext';
 import { useCart } from '../context/CartContext';
@@ -61,14 +61,6 @@ export const Header = ({ toggleMenu, setActiveHeaderComponent }) => {
             + Iniciar sesión
           </button>
         )}
-
-        <button
-          className='header-icon-btn'
-          onClick={() => setActiveHeaderComponent("Ayuda")}
-          aria-label='Ayuda'
-        >
-          <LuCircleHelp />
-        </button>
 
         <div className="cart-container">
           <button

@@ -1,30 +1,29 @@
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000"
+import { supabase } from "./supabaseClient";
+import { adminFetch } from "./adminFetch";
 
-export async function crearBeats(formData) {
-    const res = await fetch(`${API_URL}/api/beats`, {
-        method: "POST",
-        body: formData,
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) throw new Error(data.error || "Error al crear el beat");
-
-    return data;
+export function cambiarDisponibilidadBeat(id, disponible_beat) {
+    return adminFetch(`/api/beats/${id}`, { method: "PATCH", body: { disponible_beat } });
 }
 
-export async function getBeats() {
-    try {
-        const res = await fetch(`${API_URL}/api/beats/getBeats`);
-        if (!res.ok) throw new Error("Error obteniendo beats!!");
+export function eliminarBeat(id) {
+    return adminFetch(`/api/beats/${id}`, { method: "DELETE" });
+}
 
-        // Leer el body una sola vez: llamar res.json() dos veces lanza
-        // "body stream already read" y los beats nunca se cargaban.
-        const data = await res.json();
-        console.log("Respuesta de getBeats:", data);
-        return data;
-    } catch (error) {
-        console.error("Error en fetchBeats:", error);
+
+export function crearBeats(formData) {
+    return adminFetch("/api/beats", { method: "POST", body: formData });
+}
+
+// Lectura directa a Supabase: evita el salto por Render (y su cold start).
+export async function getBeats() {
+    const { data, error } = await supabase
+        .from("beats")
+        .select("id_beat, nombre_beat, url_beat, precio, disponible_beat, created_at, imagen_beat")
+        .order("created_at", { ascending: false });
+
+    if (error) {
+        console.error("Error obteniendo beats:", error);
         throw error;
     }
+    return data;
 }
